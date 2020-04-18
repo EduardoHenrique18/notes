@@ -1,0 +1,281 @@
+{
+    "swagger":"2.0",
+    "info":{
+        "description":"A node project to example",
+        "version":"1.0.0",
+        "title":"Notes"
+    },
+    "basePath":"",
+    "tags":[
+        {
+            "name":"user",
+            "description":"Api for Users"
+        },
+        {
+            "name":"note",
+            "description":"Api for Notes"
+        },
+        {
+            "name":"login",
+            "description":"Api for Login"
+        }
+    ],
+    "schemes":[
+        "http"
+    ],
+    "paths":{
+        "/login":{
+            "post":{
+                "tags":[
+                    "login"
+                ],
+                "summary":"Get permission to login",
+                "description":"",
+                "operationId":"login",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "parameters":[
+                    {
+                        "in":"body",
+                        "name":"body",
+                        "description":"User Object",
+                        "required":true,
+                        "schema":{
+                            "$ref":"#/definitions/User"
+                        }
+                    }
+                ],
+                "responses":{
+                    "405":{
+                        "description":"Invalid input"
+                    }
+                }
+            }
+        },
+        "/user":{
+            "post":{
+                "tags":[
+                    "user"
+                ],
+                "summary":"Create a new user in system",
+                "description":"",
+                "operationId":"addUser",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "parameters":[
+                    {
+                        "in":"body",
+                        "name":"body",
+                        "description":"User Object",
+                        "required":true,
+                        "schema":{
+                            "$ref":"#/definitions/User"
+                        }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"successful operation",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/User"                          
+                        }
+                    },
+                    "400":{
+                        "description":"Registration failed"
+                    }
+                }
+            }
+        },
+        "/note":{
+            "post":{
+                "tags":[
+                    "note"
+                ],
+                "security": {
+                    "bearerAuth": []
+                },
+                "summary":"Create a new note in system",
+                "description":"",
+                "operationId":"addNote",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "parameters":[
+                    {
+                        "in":"body",
+                        "name":"body",
+                        "description":"Note Object",
+                        "required":true,
+                        "schema":{
+                            "$ref":"#/definitions/Note"
+                        }
+                    }
+                ],
+                "responses":{
+                    "405":{
+                        "description":"Invalid input"
+                    }
+                }
+            }
+        },
+        "/note/{id}":{
+            "get":{
+                "tags":[
+                    "note"
+                ],
+                "security": {
+                    "bearerAuth": []
+                },
+                "summary":"Find notes by userId",
+                "description":"",
+                "operationId":"findNotesByUserId",
+                "produces":[
+                    "application/json"
+                ],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "description":"userId",
+                        "required":true,
+                        "type":"string"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"successful operation",
+                        "schema":{
+                            "type":"array",
+                            "items":{
+                                "$ref":"#/definitions/Note"
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Invalid status value"
+                    }
+                }
+            },
+            "put":{
+                "tags":[
+                    "note"
+                ],
+                "security": {
+                    "bearerAuth": []
+                },
+                "summary":"Updated note",
+                "description":"",
+                "operationId":"updateNote",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "description":"id that need to be updated",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "in":"body",
+                        "name":"body",
+                        "description":"Updated note object",
+                        "required":true,
+                        "schema":{
+                            "$ref":"#/definitions/Note"
+                        }
+                    }
+                ],
+                "responses":{
+                    "400":{
+                        "description":"Invalid user supplied"
+                    },
+                    "404":{
+                        "description":"User not found"
+                    }
+                }
+            },
+            "delete":{
+                "tags":[
+                    "note"
+                ],
+                "security": {
+                    "bearerAuth": []
+                },
+                "summary":"Delete note",
+                "description":"",
+                "operationId":"deleteNote",
+                "produces":[
+                    "application/json"
+                ],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "description":"The id that needs to be deleted",
+                        "required":true,
+                        "type":"string"
+                    }
+                ],
+                "responses":{
+                    "400":{
+                        "description":"Invalid id supplied"
+                    },
+                    "404":{
+                        "description":"Note not found"
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "bearerAuth":{
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+        }
+    },
+    "definitions":{
+        "Note":{
+            "type":"object",
+            "properties":{
+                "name":{
+                    "type":"string"
+                },
+                "description":{
+                    "type":"string"
+                },
+                "idUser":{
+                    "type":"string"
+                }
+            }
+        },
+        "User":{
+            "type":"object",
+            "properties":{
+                "userName":{
+                    "type":"string"
+                },
+                "password":{
+                    "type":"string"
+                }
+            }
+        }
+    }
+}
