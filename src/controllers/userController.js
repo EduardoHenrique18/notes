@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const userModel = require('../models/userModel')
 
-const tokenGenerator = (userId) => jwt.sign({ id: userId }, process.env.TOKEN || '3c1b3d790e3320bd76eb04b83737e3b4', {
+const tokenGenerator = (userId) => jwt.sign({ id: userId }, process.env.TOKEN || '', {
   expiresIn: 10800
 })
 

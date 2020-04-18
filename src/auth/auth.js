@@ -19,7 +19,7 @@ const auth = (req, res, next) => {
     return res.status(401).send({ error: 'Token malformatted' })
   }
 
-  jwt.verify(token, process.env.TOKEN || '3c1b3d790e3320bd76eb04b83737e3b4', (err, decoded) => {
+  jwt.verify(token, process.env.TOKEN || '', (err, decoded) => {
     if (err) {
       if (err.name === 'TokenExpiredError') {
         return res.status(504).send({ error: 'Token expired' })
