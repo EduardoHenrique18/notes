@@ -50,8 +50,33 @@
                     }
                 ],
                 "responses":{
-                    "405":{
-                        "description":"Invalid input"
+                    "200":{
+                        "description":"successful operation",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "400":{
+                        "description":"Invalid param",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "401":{
+                        "description":"User dont need permission",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "500":{
+                        "description":"Server Error",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
                     }
                 }
             }
@@ -86,11 +111,29 @@
                         "description":"successful operation",
                         "schema":{
                             "type":"object",
-                            "$ref":"#/definitions/User"                          
+                            "$ref":"#/definitions/Response"                          
                         }
                     },
                     "400":{
-                        "description":"Registration failed"
+                        "description":"Invalid param",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "409":{
+                        "description":"User already exist",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "500":{
+                        "description":"Server Error",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
                     }
                 }
             }
@@ -124,8 +167,33 @@
                     }
                 ],
                 "responses":{
-                    "405":{
-                        "description":"Invalid input"
+                    "200":{
+                        "description":"successful operation",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "400":{
+                        "description":"Invalid param",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "401":{
+                        "description":"Invalid token",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "500":{
+                        "description":"Server Error",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
                     }
                 }
             }
@@ -157,14 +225,30 @@
                     "200":{
                         "description":"successful operation",
                         "schema":{
-                            "type":"array",
-                            "items":{
-                                "$ref":"#/definitions/Note"
-                            }
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
                         }
                     },
                     "400":{
-                        "description":"Invalid status value"
+                        "description":"Invalid param",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "401":{
+                        "description":"Invalid token",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "500":{
+                        "description":"Server Error",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
                     }
                 }
             },
@@ -203,11 +287,33 @@
                     }
                 ],
                 "responses":{
-                    "400":{
-                        "description":"Invalid user supplied"
+                    "200":{
+                        "description":"successful operation",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
                     },
-                    "404":{
-                        "description":"User not found"
+                    "400":{
+                        "description":"Invalid param",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "401":{
+                        "description":"Invalid token",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "500":{
+                        "description":"Server Error",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
                     }
                 }
             },
@@ -234,11 +340,33 @@
                     }
                 ],
                 "responses":{
-                    "400":{
-                        "description":"Invalid id supplied"
+                    "200":{
+                        "description":"successful operation",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
                     },
-                    "404":{
-                        "description":"Note not found"
+                    "400":{
+                        "description":"Invalid param",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "401":{
+                        "description":"Invalid token",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
+                    },
+                    "500":{
+                        "description":"Server Error",
+                        "schema":{
+                            "type":"object",
+                            "$ref":"#/definitions/Response"                          
+                        }
                     }
                 }
             }
@@ -252,6 +380,17 @@
         }
     },
     "definitions":{
+        "Response":{
+            "type":"object",
+            "properties":{
+                "statusCode":{
+                    "type":"string"
+                },
+                "data":{
+                    "type":"object"
+                }
+            }
+        },
         "Note":{
             "type":"object",
             "properties":{

@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const HttpResponse = require('../utils/httpResponse')
+const { DataAlreadyExistError, IncorrectUserError } = require('../utils/errors')
 
 const userModel = require('../models/userModel')
 
@@ -13,7 +15,7 @@ const addUser = async (req, res) => {
     const user = await userModel.findOne({ userName })
 
     if (user) {
-      return res.status(400).send({ error: 'User already exist' })
+      return new HttpResponse(res).conflictError(new DataAlreadyExistError())
     }
 
     const hash = await bcrypt.hash(password, 10)
@@ -22,9 +24,10 @@ const addUser = async (req, res) => {
 
     createdUser.password = undefined
 
-    return res.send({ createdUser, token: tokenGenerator(createdUser._id) })
+    return new HttpResponse(res).ok({ createdUser, token: tokenGenerator(createdUser._id) })
   } catch (error) {
-    return res.status(400).send({ error: 'Registration failed' })
+    console.log(error)
+    return new HttpResponse(res).serverError()
   }
 }
 
@@ -34,18 +37,19 @@ const login = async (req, res) => {
     const user = await userModel.findOne({ userName })
 
     if (!user) {
-      return res.status(400).send({ error: 'User not found' })
+      return new HttpResponse(res).unauthorizedError(new IncorrectUserError())
     }
 
     if (!await bcrypt.compare(password, user.password)) {
-      return res.status(400).send({ error: 'Invalid password' })
+      return new HttpResponse(res).unauthorizedError(new IncorrectUserError())
     }
 
     user.password = undefined
 
-    return res.send({ user, token: tokenGenerator(user.id) })
+    return new HttpResponse(res).ok({ user, token: tokenGenerator(user._id) })
   } catch (error) {
-    return res.status(400).send({ error: 'login failed' })
+    console.log(error)
+    return new HttpResponse(res).serverError()
   }
 }
 

@@ -1,4 +1,6 @@
 const userValidatorSchema = require('./schemas/userValidatorSchema')
+const HttpResponse = require('../utils/httpResponse')
+const { InvalidParamError } = require('../utils/errors')
 
 const userValidator = async (req, res, next) => {
   const { userName, password } = req.body
@@ -7,7 +9,7 @@ const userValidator = async (req, res, next) => {
 
     return next()
   } catch (err) {
-    return res.status(400).send({ error: 'Invalid request' })
+    return new HttpResponse(res).badRequest(new InvalidParamError(err.details[0].path[0]))
   }
 }
 

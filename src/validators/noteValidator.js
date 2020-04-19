@@ -1,4 +1,6 @@
 const noteValidatorSchema = require('./schemas/noteValidatorSchema')
+const HttpResponse = require('../utils/httpResponse')
+const { InvalidParamError } = require('../utils/errors')
 
 const addNoteValidator = async (req, res, next) => {
   const { name, description } = req.body
@@ -10,7 +12,7 @@ const addNoteValidator = async (req, res, next) => {
 
     return next()
   } catch (err) {
-    return res.status(400).send({ error: 'Invalid request' })
+    return new HttpResponse(res).badRequest(new InvalidParamError(err.details[0].path[0]))
   }
 }
 
@@ -23,7 +25,7 @@ const searchNoteByUserId = async (req, res, next) => {
 
     return next()
   } catch (err) {
-    return res.status(400).send({ error: 'Invalid request' })
+    return new HttpResponse(res).badRequest(new InvalidParamError(err.details[0].path[0]))
   }
 }
 
@@ -34,7 +36,7 @@ const deleteNoteByIdSchema = async (req, res, next) => {
 
     return next()
   } catch (err) {
-    return res.status(400).send({ error: 'Invalid request' })
+    return new HttpResponse(res).badRequest(new InvalidParamError(err.details[0].path[0]))
   }
 }
 
@@ -50,7 +52,7 @@ const updateNoteByIdSchema = async (req, res, next) => {
 
     return next()
   } catch (err) {
-    return res.status(400).send({ error: 'Invalid request' })
+    return new HttpResponse(res).badRequest(new InvalidParamError(err.details[0].path[0]))
   }
 }
 

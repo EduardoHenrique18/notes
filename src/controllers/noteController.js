@@ -1,13 +1,16 @@
 const noteModel = require('../models/noteModel')
+const HttpResponse = require('../utils/httpResponse')
+const { NoteDontExistError } = require('../utils/errors')
 
 const addNote = async (req, res) => {
   const { name, description, userId } = req.body
   try {
     const createdNote = await noteModel.create({ name, description, userId })
 
-    return res.send({ createdNote })
+    return new HttpResponse(res).ok({ createdNote })
   } catch (error) {
-    return res.status(400).send({ error: 'Registration failed' })
+    console.log(error)
+    return new HttpResponse(res).serverError()
   }
 }
 
@@ -16,20 +19,29 @@ const findNoteByUserId = async (req, res) => {
   try {
     const notes = await noteModel.find({ userId })
 
-    return res.send({ notes })
+    return new HttpResponse(res).ok({ notes })
   } catch (error) {
-    return res.status(400).send({ error: 'requisition failed' })
+    console.log(error)
+    return new HttpResponse(res).serverError()
   }
 }
 
 const deleteNoteById = async (req, res) => {
   const { id } = req.params
   try {
-    await noteModel.findByIdAndDelete({ _id: id })
+    const noteDeleted = await noteModel.findByIdAndDelete({ _id: id })
 
-    return res.send({ message: 'note deleted successfully' })
+    if (noteDeleted) {
+      return new HttpResponse(res).ok({ message: 'note deleted successfully' })
+    }
+
+    return new HttpResponse(res).badRequest(new NoteDontExistError())
   } catch (error) {
-    return res.status(400).send({ error: 'requisition failed' })
+    console.log(error)
+    if (error.name === 'CastError') {
+      return new HttpResponse(res).badRequest(new NoteDontExistError())
+    }
+    return new HttpResponse(res).serverError()
   }
 }
 
@@ -37,11 +49,19 @@ const updateNoteById = async (req, res) => {
   const { id } = req.params
   const { name, description } = req.body
   try {
-    await noteModel.findByIdAndUpdate(id, { name, description })
+    const noteUpdated = await noteModel.findByIdAndUpdate(id, { name, description })
 
-    return res.send({ message: 'note updated successfully' })
+    if (noteUpdated) {
+      return new HttpResponse(res).ok({ message: 'note updated successfully' })
+    }
+
+    return new HttpResponse(res).badRequest(new NoteDontExistError())
   } catch (error) {
-    return res.status(400).send({ error: 'requisition failed' })
+    console.log(error)
+    if (error.name === 'CastError') {
+      return new HttpResponse(res).badRequest(new NoteDontExistError())
+    }
+    return new HttpResponse(res).serverError()
   }
 }
 
