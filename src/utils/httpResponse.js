@@ -6,7 +6,7 @@ module.exports = class HttpResponse {
   }
 
   ok (data) {
-    return this.res.send({
+    return this.res.status(200).send({
       statusCode: 200,
       data,
       error: ''
@@ -14,7 +14,7 @@ module.exports = class HttpResponse {
   }
 
   badRequest (error) {
-    return this.res.send({
+    return this.res.status(400).send({
       statusCode: 400,
       data: {},
       error: error.message
@@ -22,7 +22,7 @@ module.exports = class HttpResponse {
   }
 
   conflictError (error) {
-    return this.res.send({
+    return this.res.status(409).send({
       statusCode: 409,
       data: {},
       error: error.message
@@ -30,7 +30,7 @@ module.exports = class HttpResponse {
   }
 
   unauthorizedError (error) {
-    return this.res.send({
+    return this.res.status(401).send({
       statusCode: 401,
       data: {},
       error: error.message
@@ -38,7 +38,7 @@ module.exports = class HttpResponse {
   }
 
   serverError () {
-    return this.res.send({
+    return this.res.status(500).send({
       statusCode: 500,
       data: {},
       error: new ServerError().message
