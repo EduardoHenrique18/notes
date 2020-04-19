@@ -397,7 +397,7 @@
         "Note":{
             "type":"object",
             "properties":{
-                "name":{
+                "title":{
                     "type":"string"
                 },
                 "description":{

@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose')
 
 const noteSchema = new Schema({
-  name: {
+  title: {
     type: String,
     required: true,
     trim: true

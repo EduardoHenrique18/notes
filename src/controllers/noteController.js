@@ -3,9 +3,9 @@ const HttpResponse = require('../utils/httpResponse')
 const { NoteDontExistError } = require('../utils/errors')
 
 const addNote = async (req, res) => {
-  const { name, description, userId } = req.body
+  const { title, description, userId } = req.body
   try {
-    const createdNote = await noteModel.create({ name, description, userId })
+    const createdNote = await noteModel.create({ title, description, userId })
 
     return new HttpResponse(res).ok({ createdNote })
   } catch (error) {
@@ -47,9 +47,9 @@ const deleteNoteById = async (req, res) => {
 
 const updateNoteById = async (req, res) => {
   const { id } = req.params
-  const { name, description } = req.body
+  const { title, description } = req.body
   try {
-    const noteUpdated = await noteModel.findByIdAndUpdate(id, { name, description })
+    const noteUpdated = await noteModel.findByIdAndUpdate(id, { title, description })
 
     if (noteUpdated) {
       return new HttpResponse(res).ok({ message: 'note updated successfully' })
