@@ -403,7 +403,7 @@
                 "description":{
                     "type":"string"
                 },
-                "idUser":{
+                "userId":{
                     "type":"string"
                 }
             }

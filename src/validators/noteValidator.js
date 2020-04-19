@@ -3,11 +3,12 @@ const HttpResponse = require('../utils/httpResponse')
 const { InvalidParamError } = require('../utils/errors')
 
 const addNoteValidator = async (req, res, next) => {
-  const { name, description } = req.body
+  const { name, description, userId } = req.body
   try {
     await noteValidatorSchema.addNoteValidatorSchema.validateAsync({
       name,
-      description
+      description,
+      userId
     })
 
     return next()
