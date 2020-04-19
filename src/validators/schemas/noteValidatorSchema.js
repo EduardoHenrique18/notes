@@ -1,8 +1,8 @@
 const Joi = require('@hapi/joi')
 
 const addNoteValidatorSchema = Joi.object({
-  name: Joi.string().alphanum().min(3).max(30).required(),
-  description: Joi.string().alphanum().min(3).max(50).required()
+  name: Joi.string().min(3).max(30).required(),
+  description: Joi.string().min(3).max(255).required()
 })
 
 const searchNoteByUserIdSchema = Joi.object({
@@ -14,8 +14,8 @@ const deleteNoteByIdSchema = Joi.object({
 })
 
 const updateNoteByIdSchema = Joi.object({
-  name: Joi.string().alphanum().min(3).max(30).required(),
-  description: Joi.string().alphanum().min(3).max(50).required(),
+  name: Joi.string().min(3).max(30).required(),
+  description: Joi.string().min(3).max(255).required(),
   id: Joi.string().alphanum().length(24).required()
 })
 
